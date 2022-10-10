@@ -1,3 +1,3 @@
 # golang_workspace
 
-**Practise** folder consists of old files.
+**practise_app** folder consists of old files.
