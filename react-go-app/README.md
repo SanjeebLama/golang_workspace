@@ -7,8 +7,9 @@ A little description here.
 ## Flow Chart
 
 Here is a simple flow chart:
+
 <!---
-flowchart LR; 
+flowchart LR;
 graph TD;
 
 
@@ -21,8 +22,8 @@ graph TD;
 
     ├── Models/ Entry.go
     ├── Routes
-    │   ├── Connection.go 
-    │   └── Entries.go 
+    │   ├── Connection.go
+    │   └── Entries.go
     ├── docs                    # Documentation files (alternatively `doc`)
     ├── src                     # Source files (alternatively `lib` or `app`)
     ├── test                    # Automated tests (alternatively `spec` or `tests`)
@@ -37,8 +38,5 @@ graph TD;
 flowchart LR;
     React+Tailwind<-->Gin;
     Gin-->Golang;
-    Golang-->Validatorv10;
-    Validatorv10 --> Mongo-driver
-    Mongo-driver-->Mongodb
+    Golang-->Firestore;
 ```
-
