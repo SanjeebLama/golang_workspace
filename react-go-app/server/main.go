@@ -12,13 +12,15 @@ import (
 func main() {
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8000"
+		port = "8080"
 	}
 
 	router := gin.Default()
 	router.Use(gin.Logger())   // logger
 	router.Use(cors.Default()) // cors
+	router.GET("/status", routes.StatusOK)
 	router.POST("/entry/create", routes.AddEntry)
+
 	router.GET("/entries", routes.GetEntries)
 	router.GET("entry/:id", routes.GetEntryById)
 
