@@ -14,21 +14,25 @@ func main() {
 	if port == "" {
 		port = "8080"
 	}
+	routes.Initialize()
 
 	router := gin.Default()
 	router.Use(gin.Logger())   // logger
 	router.Use(cors.Default()) // cors
-	router.GET("/status", routes.StatusOK)
-	router.POST("/entry/create", routes.AddEntry)
 
-	router.GET("/entries", routes.GetEntries)
-	router.GET("entry/:id", routes.GetEntryById)
+	router.GET("/status", routes.StatusOK)
+	router.POST("/quote/create", routes.CreateQuote)
+
+	router.POST("/quote/add", routes.AddQuote)
+
+	router.GET("/quotes", routes.GetQuotes)
+	router.GET("quote/:id", routes.GetQuoteById)
 
 	// Update
-	router.PUT("/entry/:id", routes.UpdateEntry)
+	router.PUT("/quote/:id", routes.UpdateQuote)
 
 	// delete
-	router.DELETE("/entry/:id", routes.DeleteEntry)
+	router.DELETE("/quote/:id", routes.DeleteQuote)
 
 	router.Run(":" + port)
 }
