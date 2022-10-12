@@ -1,7 +1,12 @@
 import { useState } from "react";
 // import { getData } from "../App";
+import { useMutation, queryClient } from "react-query";
+import { useContext } from "react";
+import { UserContext } from "../ContextAPI";
+import { useEffect } from "react";
+import { postQuote, updateQuote } from "../api/request";
 
-function Form({ getData }) {
+function Form() {
   const initialState = {
     author: "",
     quote: "",
@@ -10,7 +15,13 @@ function Form({ getData }) {
 
   const [data, setData] = useState(initialState);
 
-  const [count, setCount] = useState(5);
+  const { quote } = useContext(UserContext);
+
+  useEffect(() => {
+    setData(quote);
+  }, [quote]);
+
+  const [count, setCount] = useState(6);
 
   const handleChange = (e) => {
     setData({
@@ -20,35 +31,53 @@ function Form({ getData }) {
   };
 
   const addID = () => {
-    data.id = count;
     setCount(count + 1);
+    data.id = count;
   };
+
+  const usePostQuote = () => {
+    return useMutation(postQuote, {
+      onSuccess: () => {
+        queryClient.invalidateQueries("quotes");
+      },
+    });
+  };
+
+  const { mutate } = usePostQuote();
+
+  const useEditQuote = () => {
+    return useMutation(updateQuote, {
+      onSuccess: () => {
+        queryClient.invalidateQueries("quotes");
+      },
+    });
+  };
+
+  const { mutate: editMutate } = useEditQuote();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    addID();
 
-    fetch("http://localhost:8080/quote/add", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((res) => res.json())
-      .then((data) => console.log(data));
-    console.log("Inside handleSubmit");
+    if (e.target.name === "Update") {
+      console.log("Inside Update");
+      editMutate(data);
+    }
+
+    if (e.target.name === "Submit") {
+      console.log("Inside Submit");
+      addID();
+      mutate(data);
+    }
 
     // fetch getData and clear the form
     setData(initialState);
-    getData();
   };
 
   return (
     <div className="flex justify-center">
       <form>
         <h1 className="text-xl font-semi-bold font-thin text-center mb-3">
-          Add a Quote
+          {data?.doc_id ? "Update" : "Add"} a Quote
         </h1>
         <div className="mb-6 ">
           <label
@@ -63,7 +92,7 @@ function Form({ getData }) {
             name="author"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder=""
-            value={data.author}
+            value={data?.author}
             onChange={(e) => handleChange(e)}
             required
           />
@@ -80,7 +109,7 @@ function Form({ getData }) {
             id="quote"
             name="quote"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            value={data.quote}
+            value={data?.quote}
             onChange={(e) => handleChange(e)}
             required
           />
@@ -89,9 +118,11 @@ function Form({ getData }) {
         <button
           type="submit"
           className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          name={data?.doc_id ? "Update" : "Submit"}
           onClick={(e) => handleSubmit(e)}
         >
-          Submit
+          {/* {isLoading ? "Loading " : "Submit"} */}
+          {data?.doc_id ? "Update" : "Submit"}
         </button>
       </form>
     </div>

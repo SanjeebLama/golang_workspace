@@ -56,6 +56,13 @@ type Quote struct {
 	ID     int    `json:"id" binding:"required"`
 }
 
+type ResQuote struct {
+	Quote  string `json:"quote" binding:"required"`
+	Author string `json:"author" binding:"required"`
+	ID     int    `json:"id" binding:"required"`
+	Doc_ID string `json:"doc_id" binding:"required"`
+}
+
 func CreateQuote(c *gin.Context) {
 
 	client, err := app.Firestore(ctx)
@@ -196,7 +203,7 @@ func GetQuotes(c *gin.Context) {
 func AddQuote(c *gin.Context) {
 	var newQuote Quote
 
-	// Call BindJSON to bind the received JSON to newAlbum.
+	// Call BindJSON to bind the received JSON to newQuote.
 	if err := c.BindJSON(&newQuote); err != nil {
 		return
 	}
@@ -231,6 +238,35 @@ func GetQuoteById(c *gin.Context) {
 }
 
 func UpdateQuote(c *gin.Context) {
+	var updateQuote ResQuote
+
+	// Call BindJSON to bind the received JSON to updateQuote.
+	if err := c.BindJSON(&updateQuote); err != nil {
+		return
+	}
+
+	client, err := app.Firestore(ctx)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	var q map[string]string
+	c.BindJSON(&q)
+
+	_, err = client.Collection("quotes").Doc(updateQuote.Doc_ID).Set(ctx, map[string]interface{}{
+		"quote":  updateQuote.Quote,
+		"author": updateQuote.Author,
+		"id":     updateQuote.ID,
+	})
+	if err != nil {
+		log.Fatalf("Failed adding alovelace: %v", err)
+	}
+
+	defer client.Close()
+
+	c.JSON(200, gin.H{
+		"body": "Successfully updated quote",
+	})
 
 }
 

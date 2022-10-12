@@ -29,7 +29,7 @@ func main() {
 	router.GET("quote/:id", routes.GetQuoteById)
 
 	// Update
-	router.PUT("/quote/:id", routes.UpdateQuote)
+	router.PUT("/quote/update", routes.UpdateQuote)
 
 	// delete
 	router.DELETE("/quote/:id", routes.DeleteQuote)

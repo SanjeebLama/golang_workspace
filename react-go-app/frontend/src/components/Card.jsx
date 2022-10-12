@@ -1,12 +1,33 @@
-function Card({ id, author, quote, doc_id, getData }) {
-  const deleteQuote = () => {
-    fetch(`http://localhost:8080/quote/${doc_id}`, {
-      method: "DELETE",
-    })
-      .then((res) => res.json())
-      .then((data) => console.log(data));
+import { useMutation, queryClient } from "react-query";
+import { useContext } from "react";
+import { UserContext } from "../ContextAPI";
+import { deleteQuote } from "../api/request";
 
-    getData();
+function Card({ id, author, quote, doc_id }) {
+  const useDeleteQuote = () => {
+    return useMutation(deleteQuote, {
+      onSuccess: () => {
+        queryClient.invalidateQueries("quotes");
+      },
+    });
+  };
+
+  const { mutate } = useDeleteQuote();
+
+  const handleDelete = (doc_id) => {
+    mutate(doc_id);
+  };
+
+  const { setQuote } = useContext(UserContext);
+
+  const handleEdit = () => {
+    console.log("Inside handle Edit");
+    setQuote({
+      doc_id: doc_id,
+      quote: quote,
+      author: author,
+      id: id,
+    });
   };
 
   return (
@@ -34,13 +55,14 @@ function Card({ id, author, quote, doc_id, getData }) {
         <button
           type="button"
           className=" inline-block px-6 py-2.5 mx-3 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
+          onClick={() => handleEdit()}
         >
           Edit
         </button>
         <button
           type="button"
           className=" inline-block px-6 py-2.5 bg-gray-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-700 hover:shadow-lg focus:bg-gray-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-800 active:shadow-lg transition duration-150 ease-in-out"
-          onClick={() => deleteQuote(doc_id)}
+          onClick={() => handleDelete(doc_id)}
         >
           Delete
         </button>
