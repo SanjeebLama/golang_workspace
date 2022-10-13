@@ -1,5 +1,5 @@
 import React from "react";
-import Index from "./components/Index";
+import Index from "./Pages/Index";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 const queryClient = new QueryClient();

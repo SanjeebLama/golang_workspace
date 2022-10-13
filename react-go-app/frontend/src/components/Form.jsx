@@ -74,57 +74,65 @@ function Form() {
   };
 
   return (
-    <div className="flex justify-center">
-      <form>
-        <h1 className="text-xl font-semi-bold font-thin text-center mb-3">
-          {data?.doc_id ? "Update" : "Add"} a Quote
-        </h1>
-        <div className="mb-6 ">
-          <label
-            htmlFor="author"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-          >
-            Author
-          </label>
-          <input
-            type="text"
-            id="author"
-            name="author"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder=""
-            value={data?.author}
-            onChange={(e) => handleChange(e)}
-            required
-          />
-        </div>
-        <div className="mb-6">
-          <label
-            htmlFor="quote"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-          >
-            Quote
-          </label>
-          <textarea
-            type="text"
-            id="quote"
-            name="quote"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            value={data?.quote}
-            onChange={(e) => handleChange(e)}
-            required
-          />
-        </div>
+    <div className="w-1/2 p-6 pb-10 m-auto bg-white rounded-md shadow-md w-sm">
+      <div className="flex justify-center">
+        <form>
+          <h1 className="text-xl font-semi-bold font-thin text-center mb-3">
+            {data?.doc_id ? "Update" : "Add"} a Quote
+          </h1>
 
-        <button
-          type="submit"
-          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          name={data?.doc_id ? "Update" : "Submit"}
-          onClick={(e) => handleSubmit(e)}
-        >
-          {/* {isLoading ? "Loading " : "Submit"} */}
-          {data?.doc_id ? "Update" : "Submit"}
-        </button>
-      </form>
+          <div className="flex flex-wrap">
+            <div className="w-full ">
+              <label
+                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                htmlFor="author"
+              >
+                Author
+              </label>
+              <input
+                className="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-teal-300"
+                type="text"
+                id="author"
+                name="author"
+                value={data?.author}
+                onChange={(e) => handleChange(e)}
+                required
+                placeholder=""
+              />
+            </div>
+          </div>
+          <div className="flex flex-wrap ">
+            <div className="w-full">
+              <label
+                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                htmlFor="quote"
+              >
+                Quote
+              </label>
+              <textarea
+                className="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-teal-300"
+                id="quote"
+                type="quote"
+                name="quote"
+                value={data?.quote}
+                onChange={(e) => handleChange(e)}
+                required
+                placeholder=""
+              />
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            className="w-full px-4 py-2 ctracking-wide text-white transition-colors duration-200 transform bg-purple-700 rounded-md hover:bg-purple-600 focus:outline-none focus:bg-purple-600"
+            name={data?.doc_id ? "Update" : "Submit"}
+            onClick={(e) => handleSubmit(e)}
+          >
+            {/* {isLoading ? "Loading " : "Submit"} */}
+            {data?.doc_id ? "Update" : "Submit"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

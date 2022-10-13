@@ -1,3 +1,15 @@
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
+export const getUser = () => {
+  const auth = getAuth();
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      const email = user.email;
+      return email;
+    }
+  });
+};
+
 export const getData = async () => {
   const res = await fetch("http://localhost:8080/quotes");
   return res.json();

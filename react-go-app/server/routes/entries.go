@@ -1,7 +1,6 @@
 package routes
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -186,7 +185,7 @@ func GetQuotes(c *gin.Context) {
 			return
 		}
 		// fmt.Println(doc.Data())
-		fmt.Println("ÏD : ", doc.Ref.ID)
+		// fmt.Println("ÏD : ", doc.Ref.ID)
 
 		// Add doc.Ref.ID to the map
 		m := doc.Data()

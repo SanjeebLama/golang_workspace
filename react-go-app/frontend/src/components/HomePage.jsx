@@ -1,10 +1,15 @@
 import Card from "./Card";
 import Form from "./Form";
 import { useQuery } from "react-query";
+import { useState, useEffect } from "react";
 
 import { getData } from "../api/request";
+import { useHistory } from "react-router-dom";
+import { getAuth, signOut } from "firebase/auth";
 
 function HomePage() {
+  const history = useHistory();
+
   const { isLoading, error, data } = useQuery("quotes", getData, {
     refetchInterval: 1000,
   });
@@ -16,10 +21,35 @@ function HomePage() {
       return b.id - a.id;
     });
   }
+
+  const logOut = () => {
+    const auth = getAuth();
+    signOut(auth)
+      .then(() => {
+        console.log("User signed out");
+        history.push("/login");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <div className="Index">
       <div className="flex justify-center my-5">
-        <h1 className="text-2xl font-bold">React-Go-Firebase CRUD App</h1>
+        <div className="felx flex-col">
+          <h1 className="text-2xl font-bold">React-Go-Firebase CRUD App</h1>
+
+          <span className="text-md font-md text-gray-500">
+            Wecome to your app. Do you want to{" "}
+            <button
+              className="text-blue-600 underline decoration-blue-200"
+              onClick={logOut}
+            >
+              logout?
+            </button>
+          </span>
+        </div>
       </div>
 
       <div className=" flex justify-center h-10 w-30 ">
