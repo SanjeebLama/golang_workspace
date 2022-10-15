@@ -3,6 +3,7 @@ package main
 import (
 	"net/http"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -56,7 +57,10 @@ func getAlbumsByID(c *gin.Context) {
 }
 
 func main() {
-	router := gin.Default() //initialize the gin router
+	router := gin.Default()    //initialize the gin router
+	router.Use(gin.Logger())   // logger
+	router.Use(cors.Default()) // cors
+
 	router.GET("/albums", getAlbums)
 	router.POST("/albums", postAlbums)
 	router.GET("/albums/:id", getAlbumsByID)
