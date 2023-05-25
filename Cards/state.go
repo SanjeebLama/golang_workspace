@@ -1,23 +1,19 @@
 package main
 
-import "fmt"
-
 func printCard() {
 	cards := getCard()
 
 	newList := append(cards, "Six of Spades")
 
-	for i, card := range newList { // this is for range loop
-		fmt.Println(i, card)
-	}
-
 	// for i, card := range newList { // this will throw error as we are not using index
 	// 	fmt.Println(card)
 	// }
+
+	newList.printCards() // We are passing newList to printCards() printCards is inside deck.go
 }
 
-func getCard() []string {
-	cardList := []string{"Ace of Diamonds", newCard()}
+func getCard() deck { // deck is a custom type
+	cardList := deck{"Ace of Diamonds", newCard()}
 	return cardList
 }
 
