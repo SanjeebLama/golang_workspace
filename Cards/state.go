@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 func printCard() {
-	// cards := newDeck()
+	cards := newDeck()
 
 	// newList := append(cards, "Six of Spades")
 
@@ -32,9 +32,12 @@ func printCard() {
 	// cards.saveToFile("my_cards")
 
 	// Get cards from file
-	newCards := newDeckFromFile("my_cards1")
+	// newCards := newDeckFromFile("my_cards")
 
-	fmt.Println("New Cards: \n", newCards)
+	// fmt.Println("New Cards: \n", newCards)
+
+	cards.shuffle()
+	fmt.Println("shuffle Cards: \n", cards)
 }
 
 // func getCard() deck { // deck is a custom type
