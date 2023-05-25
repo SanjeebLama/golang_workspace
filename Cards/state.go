@@ -28,6 +28,8 @@ func printCard() {
 	fmt.Println("Hand passing through toString() receiver function", hand)
 	fmt.Printf("Type of hand : %T\n", hand)
 
+	// Call saveToFile
+	cards.saveToFile("my_cards")
 }
 
 // func getCard() deck { // deck is a custom type
