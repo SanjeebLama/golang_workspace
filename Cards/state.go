@@ -19,9 +19,14 @@ func printCard() {
 
 	fmt.Println("Hand : ")
 	hand.displayCards()
+	fmt.Printf("Type of hand : %T\n", hand)
 
 	fmt.Println("Remaining Cards : ")
 	remainingCards.displayCards()
+
+	hand.toString()
+	fmt.Println("Hand passing through toString() receiver function", hand)
+	fmt.Printf("Type of hand : %T\n", hand)
 
 }
 
