@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 func printCard() {
-	cards := newDeck()
+	// cards := newDeck()
 
 	// newList := append(cards, "Six of Spades")
 
@@ -13,23 +13,28 @@ func printCard() {
 
 	// newList.displayCards() // We are passing newList to printCards() printCards is inside deck.go
 
-	hand, remainingCards := deal(cards, 5)
+	// hand, remainingCards := deal(cards, 5)
 
 	// fmt.Println("Hand : ", hand, "\nRemaining Cards : ", remainingCards)
 
-	fmt.Println("Hand : ")
-	hand.displayCards()
-	fmt.Printf("Type of hand : %T\n", hand)
+	// fmt.Println("Hand : ")
+	// hand.displayCards()
+	// fmt.Printf("Type of hand : %T\n", hand)
 
-	fmt.Println("Remaining Cards : ")
-	remainingCards.displayCards()
+	// fmt.Println("Remaining Cards : ")
+	// remainingCards.displayCards()
 
-	hand.toString()
-	fmt.Println("Hand passing through toString() receiver function", hand)
-	fmt.Printf("Type of hand : %T\n", hand)
+	// hand.toString()
+	// fmt.Println("Hand passing through toString() receiver function", hand)
+	// fmt.Printf("Type of hand : %T\n", hand)
 
 	// Call saveToFile
-	cards.saveToFile("my_cards")
+	// cards.saveToFile("my_cards")
+
+	// Get cards from file
+	newCards := newDeckFromFile("my_cards1")
+
+	fmt.Println("New Cards: \n", newCards)
 }
 
 // func getCard() deck { // deck is a custom type
