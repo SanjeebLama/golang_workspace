@@ -51,9 +51,19 @@ func main() {
 			email: "tony@stark.com",
 		},
 	}
+	// tonyPointer.updateFirstName("IronMan") // This won't work because we are not using pointer
 
-	tonyPointer := &tony
-	tonyPointer.updateFirstName("IronMan") // This won't work because we are not using pointer
+	/*
+	 #1 Pointer : Passing value by address
+	*/
+
+	// tonyPointer := &tony // Passing tony struct address to tonyPointer - hover over tonyPointer to see the type it will match with updateFirstName receiver *person
+	// tonyPointer.updateFirstName("IronMan")
+
+	/*
+	 #2 Pointer: Shortcut - this will also work because we are using pointer in receiver function
+	*/
+	tony.updateFirstName("XXXXXXX")
 
 	tony.print()
 }
