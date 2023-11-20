@@ -38,7 +38,7 @@ func postAlbums(c *gin.Context) {
 
 	// Add the new album to the slice.
 	albums = append(albums, newAlbum)
-	c.IndentedJSON(http.StatusCreated, newAlbum)
+	c.IndentedJSON(http.StatusCreated, gin.H{"message": "Album added successfully."})
 }
 
 func getAlbumsByID(c *gin.Context) {
@@ -56,6 +56,71 @@ func getAlbumsByID(c *gin.Context) {
 	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "album not found"})
 }
 
+// deleteAlbum removes an album from the list by its ID.
+func deleteAlbum(c *gin.Context) {
+	id := c.Param("id")
+
+	for i, a := range albums {
+		if a.ID == id {
+			// Delete the album from the slice.
+			albums = append(albums[:i], albums[i+1:]...)
+			c.IndentedJSON(http.StatusOK, gin.H{"message": "album deleted"})
+			return
+		}
+	}
+
+	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "album not found"})
+}
+
+// putAlbum replaces an album's data.
+func putAlbum(c *gin.Context) {
+	id := c.Param("id")
+	var updatedAlbum album
+
+	if err := c.BindJSON(&updatedAlbum); err != nil {
+		return
+	}
+
+	for i, a := range albums {
+		if a.ID == id {
+			albums[i] = updatedAlbum
+			c.IndentedJSON(http.StatusOK, gin.H{"message": "Album updated successfully."})
+			return
+		}
+	}
+
+	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "album not found"})
+}
+
+// patchAlbum updates an album's data partially.
+func patchAlbum(c *gin.Context) {
+	id := c.Param("id")
+	var patchData album
+
+	if err := c.BindJSON(&patchData); err != nil {
+		return
+	}
+
+	for i, a := range albums {
+		if a.ID == id {
+			// Update fields if present in patchData
+			if patchData.Title != "" {
+				albums[i].Title = patchData.Title
+			}
+			if patchData.Artist != "" {
+				albums[i].Artist = patchData.Artist
+			}
+			if patchData.Price != 0 {
+				albums[i].Price = patchData.Price
+			}
+			c.IndentedJSON(http.StatusOK, gin.H{"message": "Album updated successfully."})
+			return
+		}
+	}
+
+	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "album not found"})
+}
+
 func main() {
 	router := gin.Default()    //initialize the gin router
 	router.Use(gin.Logger())   // logger
@@ -64,6 +129,9 @@ func main() {
 	router.GET("/albums", getAlbums)
 	router.POST("/albums", postAlbums)
 	router.GET("/albums/:id", getAlbumsByID)
+	router.DELETE("/albums/:id", deleteAlbum)
+	router.PUT("/albums/:id", putAlbum)
+	router.PATCH("/albums/:id", patchAlbum)
 
 	router.Run("localhost:8080")
 }
